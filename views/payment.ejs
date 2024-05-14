@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Complete Payment</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  </head>
+  <body>
+    <h1>Complete Your Payment</h1>
+    <button id="payButton">Pay with Razorpay</button>
+    <script>
+      var options = {
+        key: "<%= process.env.RAZORPAY_KEY_ID %>",
+        amount: "<%= amount %>",
+        currency: "INR",
+        order_id: "<%= orderId %>",
+        callback_url:
+          "<%= process.env.BASE_URL %>/payment-callback?userPhone=<%= userPhone %>",
+        // handler: function (response) {
+        //   window.location.href = "<%= process.env.BASE_URL %>/payment-callback?userPhone=<%= userPhone %>";
+        // },
+        prefill: {
+          contact: "<%= userPhone %>",
+        },
+        theme: {
+          color: "#3399cc",
+        },
+      };
+      var rzp1 = new Razorpay(options);
+      document.getElementById("payButton").onclick = function () {
+        rzp1.open();
+      };
+    </script>
+  </body>
+</html>
