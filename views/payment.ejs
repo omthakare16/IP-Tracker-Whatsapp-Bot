@@ -15,10 +15,36 @@
         amount: "<%= amount %>",
         currency: "INR",
         order_id: "<%= orderId %>",
+
+        // below either callback_url is used or handler for to fetch /payment-callback on successfull payment
+
         callback_url:
           "<%= process.env.BASE_URL %>/payment-callback?userPhone=<%= userPhone %>",
         // handler: function (response) {
-        //   window.location.href = "<%= process.env.BASE_URL %>/payment-callback?userPhone=<%= userPhone %>";
+        //   console.log(response);
+        //   fetch(
+        //     "<%= process.env.BASE_URL %>/payment-callback?userPhone=<%= userPhone%>",
+        //     {
+        //       method: "POST",
+        //       headers: {
+        //         "Content-Type": "application/json",
+        //       },
+        //       body: JSON.stringify({
+        //         razorpay_payment_id: response.razorpay_payment_id,
+        //         razorpay_order_id: response.razorpay_order_id,
+        //         razorpay_signature: response.razorpay_signature,
+        //       }),
+        //     }
+        //   )
+        //     .then(function (response) {
+        //       return response.text();
+        //     })
+        //     .then(function (text) {
+        //       console.log("Request successful:", text);
+        //     })
+        //     .catch(function (error) {
+        //       console.error("Request failed", error);
+        //     });
         // },
         prefill: {
           contact: "<%= userPhone %>",
@@ -28,6 +54,11 @@
         },
       };
       var rzp1 = new Razorpay(options);
+      rzp1.on("payment.failed", function (response) {
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.reason);
+      });
       document.getElementById("payButton").onclick = function () {
         rzp1.open();
       };

@@ -13,7 +13,7 @@ const razorpayInstance = new Razorpay({
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
-
+app.use(express.json());
 app.set("view engine", "ejs");
 app.set("views", "views");
 
@@ -37,9 +37,11 @@ app.post("/whatsapp", async (req, res) => {
         notes: { description: "Subscription payment" },
       });
 
-      const paymentUrl = `${process.env.BASE_URL}/pay?orderId=${
-        order.id
-      }&userPhone=${encodeURIComponent(userPhone)}`;
+      const paymentUrl = `${
+        process.env.BASE_URL
+      }/pay?amount=${amount}&orderId=${order.id}&userPhone=${encodeURIComponent(
+        userPhone
+      )}`;
 
       message.body(
         `Please complete your payment by visiting this link: ${paymentUrl}`
@@ -98,6 +100,7 @@ app.get("/pay", async (req, res) => {
     userPhone: userPhone,
   });
 });
+
 app.post("/payment-callback", async (req, res) => {
   console.log("Callback Data:", req.body);
   const paymentId = req.body.razorpay_payment_id;
