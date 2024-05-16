@@ -19,7 +19,7 @@
         // below either callback_url is used or handler for to fetch /payment-callback on successfull payment
 
         callback_url:
-          "<%= process.env.BASE_URL %>/payment-callback?userPhone=<%= userPhone %>&amount=<%= amount %>",
+          "<%= process.env.BASE_URL %>/payment-callback?userPhone=<%= encodeURIComponent(userPhone) %>&amount=<%= amount %>",
         // handler: function (response) {
         //   console.log(response);
         //   fetch(
