@@ -86,11 +86,7 @@ app.post("/whatsapp", async (req, res) => {
         );
       } catch (error) {
         console.log(error);
-        message.body(
-          "Error: " +
-            error.response.data.reason +
-            " Sorry, there was an error processing your request."
-        );
+        message.body(" Sorry, there was an error processing your request.");
       }
     } else {
       message.body("Please enter a valid IP address to check.");
@@ -288,9 +284,16 @@ async function handlePaymentCaptured(payment) {
     if (user) {
       user.isSubscribed = true;
       await user.save();
+      const expirationDate =
+        paymentSession.subscriptionEndDate.toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        });
+
       sendMessageToWhatsApp(
         user.phone,
-        "Your payment has been successfully captured, and your subscription is now active."
+        `Your payment has been successfully captured, and your subscription is now active. Your subscription will expire on ${expirationDate}.`
       );
     }
     console.log(
