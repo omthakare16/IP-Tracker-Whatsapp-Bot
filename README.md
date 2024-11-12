@@ -66,8 +66,15 @@ A **WhatsApp bot** built using **Twilio Sandbox** that enables users to track an
    - Set up your Twilio Sandbox for WhatsApp by following the instructions in the [Twilio Console](https://www.twilio.com/console/sms/whatsapp/sandbox).
    - Update the "When a message comes in" URL in the Twilio Sandbox configuration with:
      ```
-     https://<your_base_url>/webhook
+     https://<your_base_url>/whatsapp
      ```
+
+2. **Razorpay Integration**
+  - To enable payments for subscriptions, the bot uses Razorpay. Follow these steps to configure Razorpay Webhooks:
+
+  - Add a new webhook with the following details:
+Webhook URL: <BASE_URL>/razorpay/webhook
+  - Select the required events, such as payment.authorized or payment.failed. 
 
 2. **Interact with the Bot**:
    - Send a message to your Twilio Sandbox number to start interacting with the bot.
